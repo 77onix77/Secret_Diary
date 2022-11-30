@@ -1,5 +1,6 @@
 package org.hyperskill.secretdiary
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -29,6 +30,21 @@ class MainActivity : AppCompatActivity() {
                 textView.text = text.trim()
                 editText.text.clear()
             }
+        }
+        findViewById<Button>(R.id.btnUndo).setOnClickListener{
+            AlertDialog.Builder(this)
+                .setTitle("Remove last note")
+                .setMessage("Do you really want to remove the last writing? This operation cannot be undone!")
+                .setPositiveButton("Yes") {_, _ ->
+
+                    val text = textView.text.toString()
+                    if (!text.contains("\n\n")) textView.text = ""
+                    else {
+                        textView.text = text.substringAfter("\n\n").trim()
+                    }
+                }
+                .setNegativeButton("No", null)
+                .show()
         }
     }
 }
